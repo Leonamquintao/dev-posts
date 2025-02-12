@@ -7,12 +7,18 @@
 class PostsController < ApplicationController
   def index
     @posts = Post.all
-    render json: @posts
+    if @posts.all
+      render json: @posts
+    else
+      render json: @post.errors, status: :unprocessable_entity
+    end
   end
 
   def show
     @post = Post.find(params[:id])
     render json: @post
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path
   end
 
   def create
@@ -40,6 +46,11 @@ class PostsController < ApplicationController
     else
       render json: { message: "Post not found" }, status: :not_found
     end
+  end
+
+  def preview
+    @posts = Post.all
+    render :preview
   end
 
   private
