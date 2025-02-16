@@ -12,5 +12,13 @@ Rails.application.routes.draw do
 
   get "preview", to: "posts#preview"
 
-  resources :posts, only: %i[index show create update destroy]
+  resources :posts, only: %i[index show create update destroy] do
+    collection do
+      get "inactive", to: "posts#inactive"
+    end
+    member do
+      patch :deactivate
+      patch :activate
+    end
+  end
 end

@@ -6,8 +6,10 @@
 
 class PostsController < ApplicationController
   def index
-    @posts = Post.all
-    if @posts.all
+    # @posts = Post.all
+    # Find only the actives one
+    @posts = Post.where(active: true).order(:id)
+    if @posts.all # instead @posts.all
       render json: @posts
     else
       render json: @post.errors, status: :unprocessable_entity
@@ -22,7 +24,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.create(post_params)
+    @post = Post.create(post_params.merge(active: true))
     if @post.save
       render json: @post, status: :created
     else
@@ -34,6 +36,35 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     if @post.update(post_params)
       render json: @post, status: :ok
+    else
+      render json: @post.errors, status: :unprocessable_entity
+    end
+  end
+
+  def activate
+    @post = Post.find(params[:id])
+    if @post.update(active: true)
+      render json: @post, status: :ok
+    else
+      Rails.logger.error(@post.errors.full_messages)
+      render json: @post.errors, status: :unprocessable_entity
+    end
+  end
+
+  def deactivate
+    @post = Post.find(params[:id])
+    if @post.update(active: false)
+      render json: @post, status: :ok
+    else
+      Rails.logger.error(@post.errors.full_messages)
+      render json: @post.errors, status: :unprocessable_entity
+    end
+  end
+
+  def inactive
+    @posts = Post.where(active: false).order(:id)
+    if @posts.any?
+      render json: @posts
     else
       render json: @post.errors, status: :unprocessable_entity
     end

@@ -37,5 +37,3 @@ Manipulating data on `Rails command line`:
 
 > post = Post.find(1)
 > post.update(title: "New Title", body: "New Body", author: "New Author")
-
-

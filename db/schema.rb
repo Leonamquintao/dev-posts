@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_28_131851) do
+ActiveRecord::Schema[7.2].define(version: 20_250_128_131_851) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "posts", force: :cascade do |t|
+    t.boolean "active", null: false
     t.string "title", null: false
     t.text "body", null: false
     t.string "author", null: false
