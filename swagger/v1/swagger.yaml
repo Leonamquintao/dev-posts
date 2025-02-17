@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  title: Swagger Dev blog - OpenAPI 3.0
+termsOfService: http://swagger.io/terms/
+license:
+  name: Apache 2.0
+  url: http://www.apache.org/licenses/LICENSE-2.0.html
+paths:
+  /posts:
+    get:
+      tags:
+        - posts
+      summary: Fetch all posts active
+      description: Find all posts that brings a title, body and author
+      operationId: findPostsActive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Posts"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Posts"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Posts"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Posts"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Posts"
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: "#/components/schemas/Posts"
+        "422":
+          description: unprocessable_entity
+components:
+  schemas:
+    Posts:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        active:
+          type: boolean
+          example: true
+        title:
+          type: string
+          example: "Post tile"
+        body:
+          type: string
+          example: "lorem ipsum dollar..."
+        author:
+          type: string
+          example: "Leonam Quintão"
+        created_at:
+          type: string
+          format: date-time
+          example: "2025-02-16T15:48:06.091Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2025-02-16T15:48:06.091Z"
+      required:
+        - id
+        - active
+        - title
+        - body
+        - author
+        - created_at
+        - updated_at
+      xml:
+        name: posts
