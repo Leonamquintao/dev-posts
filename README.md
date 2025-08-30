@@ -29,7 +29,7 @@ For generating models I've run:
 
 > rails generate model Post title:string body:text author:string
 
-FactoryBot on `Rails command line`:
+FactoryBot on `Rails command line "rails c"`:
 
 > FactoryBot.create(:post)
 
@@ -37,3 +37,14 @@ Manipulating data on `Rails command line`:
 
 > post = Post.find(1)
 > post.update(title: "New Title", body: "New Body", author: "New Author")
+
+## Adding devise:
+
+> rails generate devise:install
+> rails generate devise User name:string email:string password:string password_confirmation:string
+
+## Testing
+
+for testing I'm using Rspec default command:
+
+> bundle exec rspec spec/models/post_spec.rb

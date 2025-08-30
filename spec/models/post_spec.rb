@@ -30,4 +30,16 @@ RSpec.describe Post, type: :model do
       expect(post).not_to be_valid
     end
   end
+
+  context "when destroying a post" do
+    it "can't destroy if the post is active" do
+      post = FactoryBot.create(:post, active: true)
+      expect(post.destroy).to be_falsey
+    end
+
+    it "can destroy if the post is not active" do
+      post = FactoryBot.create(:post, active: false)
+      expect(post.destroy).to be_truthy
+    end
+  end
 end

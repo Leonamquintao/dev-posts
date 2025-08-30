@@ -1,6 +1,12 @@
 {
-  "cSpell.words": [
-    "ffaker",
-    "Rswag"
-  ]
+	"cSpell.words": [
+		"bootsnap",
+		"dotenv",
+		"ffaker",
+		"omniauthable",
+		"Rswag",
+		"rubocop",
+		"timeoutable",
+		"validatable"
+	]
 }

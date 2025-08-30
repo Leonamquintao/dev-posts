@@ -11,10 +11,8 @@ class PostsController < ApplicationController
   # I just used these methods as example personally I prefer the verbose way.
   before_action :find_blog_post, only: %i[activate deactivate destroy]
   def index
-    # @posts = Post.all
-    # Find only the actives one
-    @posts = Post.where(active: true).order(:id)
-    if @posts.all # instead @posts.all
+    @posts = Post.where(active: true).order(created_at: :desc)
+    if @posts.all
       render json: @posts
     else
       render json: @post.errors, status: :unprocessable_entity
@@ -74,16 +72,27 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    if @post.destroy
-      render json: { message: "Post deleted" }, status: :ok
+    # you can't destroy a post that is active
+    if @post.active
+      render json: { message: "Post is active, can't be destroyed" }, status: :unprocessable_entity
     else
-      render json: { message: "Post not found" }, status: :not_found
+      @post.destroy
+      if @post.destroy
+        render json: { message: "Post deleted" }, status: :ok
+      else
+        render json: { message: "Post not found" }, status: :not_found
+      end
     end
   end
 
+  # preview is the method that shows all the posts on the blog
+  # without the active filter (active or not active)
+  # if render :preview
   def preview
-    @posts = Post.all
-    render :preview
+    # @posts = Post.all
+    @posts = Post.all.order(id: :asc)
+    # render :preview
+    render json: @posts
   end
 
   private
